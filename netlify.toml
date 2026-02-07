@@ -8,10 +8,9 @@
 [build.environment]
   NODE_VERSION = "20"
 
-# Scheduled rebuild every 6 hours
-# Browser versions don't change hourly, so 4 times/day is sufficient
+# Scheduled rebuild every 12 hours
 [functions."rebuild"]
-  schedule = "0 */6 * * *"
+  schedule = "0 */12 * * *"
 
 # Headers for better caching
 [[headers]]
