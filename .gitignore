@@ -1,0 +1,19 @@
+# Node
+node_modules/
+
+#Netlify
+.netlify/
+
+# 11ty build output
+dist/
+.cache/
+
+# Env files
+.env
+.env.*
+
+# OS junk
+.DS_Store
+
+# Editor
+.vscode/

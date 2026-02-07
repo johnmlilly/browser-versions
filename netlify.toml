@@ -1,0 +1,12 @@
+# netlify.toml
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+# Rebuild every 6 hours (sufficient for browser updates)
+[functions."rebuild"]
+  schedule = "0 */6 * * *"
+
+# Plugin to cache dependencies
+[[plugins]]
+  package = "@netlify/plugin-caching-install"
