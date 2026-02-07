@@ -1,5 +1,5 @@
 import EleventyFetch from "@11ty/eleventy-fetch";
-import { transformBrowserData } from "./utils/transformBrowserData.js";
+import { transformBrowserData } from "./utils/transformbrowserdata.js";
 import { browsers } from "./config.js";
 
 /**
