@@ -1,12 +1,31 @@
-# netlify.toml
+# Netlify configuration for Browser Versions site
+
 [build]
   command = "npm run build"
   publish = "dist"
 
-# Rebuild every 6 hours (sufficient for browser updates)
+# Build environment
+[build.environment]
+  NODE_VERSION = "20"
+
+# Scheduled rebuild every 6 hours
+# Browser versions don't change hourly, so 4 times/day is sufficient
 [functions."rebuild"]
   schedule = "0 */6 * * *"
 
-# Plugin to cache dependencies
-[[plugins]]
-  package = "@netlify/plugin-caching-install"
+# Headers for better caching
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+
+[[headers]]
+  for = "/css/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
