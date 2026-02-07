@@ -22,6 +22,11 @@ export default async function(eleventyConfig) {
     if (!dateString) return '';
     return DateTime.fromISO(dateString).toRelative();
   });
+    
+    // Add global data for build time
+  eleventyConfig.addGlobalData("buildTime", () => {
+    return DateTime.now().toLocaleString(DateTime.DATETIME_FULL);
+  });
   
   return {
     dir: {
