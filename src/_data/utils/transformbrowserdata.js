@@ -1,12 +1,12 @@
 /**
  * Creates a release object with version number included
- * @param {string} versionNumber - Version number
+ * @param {string} versionNumber - Engine version number
  * @param {Object} releaseDetails - Release metadata
  * @returns {Object} - Release object with version
  */
-function createReleaseObject(versionNumber, releaseDetails) {
+function createReleaseObject(engineVersion, releaseDetails) {
   return {
-    version: versionNumber,
+    version: engineVersion,
     ...releaseDetails
   };
 }
@@ -21,57 +21,38 @@ function isCurrentRelease(release) {
 }
 
 /**
- * Checks if a release is a future/upcoming version
- * @param {Object} release - Release object
- * @returns {boolean}
- */
-function isFutureRelease(release) {
-  const futureStatuses = ['beta', 'nightly', 'planned', 'esr'];
-  return futureStatuses.includes(release.status);
-}
-
-/**
- * Categorizes browser releases into current, previous, and upcoming versions
- * @param {Object} releases - Object where keys are version numbers and values are release details
- * @returns {Object} - Object with current, previous, and next arrays
+ * Categorizes browser releases into current and fallback (previous) versions
+ * @param {Object} releases - Object where keys are engine version numbers and values are release details
+ * @returns {Object} - Object with current and previous releases
  */
 export function categorizeReleases(releases) {
-  // Convert to array of release objects
-  const allReleases = Object.entries(releases).map(([versionNumber, details]) =>
-    createReleaseObject(versionNumber, details)
+  const allReleases = Object.entries(releases).map(([engineVersion, releaseData]) =>
+    createReleaseObject(engineVersion, releaseData)
   );
 
-  // Find the current release
-  const current = allReleases.find(isCurrentRelease);
-
-  // Categorize others
-  const previous = [];
-  const next = [];
+  const currentRelease = allReleases.find(isCurrentRelease) || null;
+  const previousReleases = [];
+  let nextPlannedRelease = null; // single planned release
 
   allReleases.forEach(release => {
-    if (isCurrentRelease(release)) {
-      return; // Skip current, we already have it
+    if (isCurrentRelease(release)) return;
+
+    // Only beta releases are considered for "next"
+    if (release.status === 'beta' && !nextPlannedRelease) {
+      nextPlannedRelease = release;
+      return;
     }
 
-    if (isFutureRelease(release)) {
-      next.push(release);
-    } else {
-      // Retired or other statuses
-      previous.push(release);
-    }
+    previousReleases.push(release);
   });
 
-  // Sort for consistency
-  const sortByVersion = (a, b) => parseFloat(b.version) - parseFloat(a.version);
-  previous.sort(sortByVersion);
-  next.sort(sortByVersion);
-
-  return { 
-    current: current || null, // Handle case where no current version exists
-    previous, 
-    next 
+  return {
+    current: currentRelease,
+    previous: previousReleases,
+    next: nextPlannedRelease
   };
 }
+
 
 /**
  * Transforms raw browser data into a cleaner structure
@@ -81,41 +62,13 @@ export function categorizeReleases(releases) {
  */
 export function transformBrowserData(browserKey, browserData) {
   const { type, name, releases } = browserData;
-  const { current, previous, next } = categorizeReleases(releases);
-  
+  const { current, previous } = categorizeReleases(releases);
+
   return {
     key: browserKey,
     name,
     type,
     current,
-    previous,
-    next,
+    previous
   };
-}
-
-/**
- * Sorts releases by version number in descending order (highest first)
- * @param {Array} releases - Array of release objects
- * @returns {Array} - Sorted array (does not mutate original)
- */
-export function sortReleasesByVersion(releases) {
-  // Create a copy to avoid mutating the original array
-  return [...releases].sort((a, b) => {
-    const versionA = parseFloat(a.version);
-    const versionB = parseFloat(b.version);
-    return versionB - versionA;
-  });
-}
-
-/**
- * Gets the N most recent releases by date
- * @param {Array} releases - Array of release objects
- * @param {number} limit - Number of releases to return
- * @returns {Array} - Most recent releases
- */
-export function getMostRecentReleases(releases, limit = 5) {
-  return [...releases]
-    .filter(release => release.release_date) // Only releases with dates
-    .sort((a, b) => new Date(b.release_date) - new Date(a.release_date))
-    .slice(0, limit);
 }
