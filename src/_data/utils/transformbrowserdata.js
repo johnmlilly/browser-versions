@@ -69,6 +69,7 @@ export function transformBrowserData(browserKey, browserData) {
     name,
     type,
     current,
-    previous
+    previous,
+    next
   };
 }
