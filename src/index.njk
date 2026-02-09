@@ -29,12 +29,21 @@
   <div class="version-info">
     <span class="version-label">Current Version</span>
     <span class="version-number">{{ browser.current.version }}</span>
+    <span> Built on {{ browser.current.engine }} </span>
   </div>
   
   {% if browser.current.release_date %}
   <div class="release-date">
     <time datetime="{{ browser.current.release_date }}">Released on
       <span>{{ browser.current.release_date | readableDate }}<span>
+    </time>
+  </div>
+  {% endif %}
+
+   {% if browser.next %}
+  <div class="release-date">
+    <time datetime="{{ browser.next.release_date }}"> The next version of {{ browser.name }} will be {{ browser.next.version }}, set to be released on
+      <span>{{ browser.next.release_date | readableDate }}<span>
     </time>
   </div>
   {% endif %}
