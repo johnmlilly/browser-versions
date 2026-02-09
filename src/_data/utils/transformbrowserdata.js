@@ -62,7 +62,7 @@ export function categorizeReleases(releases) {
  */
 export function transformBrowserData(browserKey, browserData) {
   const { type, name, releases } = browserData;
-  const { current, previous } = categorizeReleases(releases);
+  const { current, previous, next } = categorizeReleases(releases);
 
   return {
     key: browserKey,
