@@ -12,14 +12,21 @@ async function getBrowserData(browserKey) {
   
   const url = `https://raw.githubusercontent.com/mdn/browser-compat-data/main/browsers/${browserKey}.json`;
   
-  // Use eleventy-fetch for caching
-  const data = await EleventyFetch(url, {
-    duration: "1d", // default is 1d
-    type: "json",
+  try {
+      // Use eleventy-fetch for caching
+      const data = await EleventyFetch(url, {
+      duration: "1d", // default is 1d
+      type: "json",
   });
   
-  const browserData = data.browsers[browserKey];
-  return transformBrowserData(browserKey, browserData);
+      const browserData = data.browsers[browserKey];
+      return transformBrowserData(browserKey, browserData);
+  }
+
+  catch(error) {
+       console.error(`❌ Failed to fetch data for ${browserKey}`);
+       console.error(error.message);
+  }
 }
 
 /**
