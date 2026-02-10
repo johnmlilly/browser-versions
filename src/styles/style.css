@@ -156,6 +156,61 @@ header p {
     flex-shrink: 0;
 }
 
+.api-section {
+    max-width: 600px;
+    margin: 4rem auto 0;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1),
+        0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.api-section h2 {
+    font-size: 1.75rem;
+    font-weight: 600;
+    text-align: center;
+    color: #1a1a1a;
+    margin-bottom: 0.5rem;
+}
+
+.api-section p {
+    font-size: 0.95rem;
+    color: #555;
+    margin-bottom: 1.5rem;
+}
+
+.api-endpoint {
+    background: #1e1e1e;
+    color: #eaeaea;
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+    font-size: 0.875rem;
+    overflow-x: auto;
+    line-height: 1.6;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+.api-endpoint code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    color: #9cdcfe;
+    background: none;
+    padding: 0;
+}
+
+.api-endpoint .method {
+    color: #4ec9b0;
+    font-weight: 600;
+}
+
+.api-endpoint .url {
+    color: #ce9178;
+}
+
+.api-endpoint .url:hover {
+    text-decoration: none;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
     body {

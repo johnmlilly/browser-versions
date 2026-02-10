@@ -5,6 +5,13 @@ export default async function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy("src/styles");
   eleventyConfig.addPassthroughCopy("src/assets");
   
+    // Mapping current browser versions
+   eleventyConfig.addFilter('browsersToApiShape', (collection) =>
+    collection.reduce((acc, cur) => {
+      acc[cur.key] = { name: cur.name, ...cur.current };
+      return acc;
+    }, {})
+  );
   // Format date into readable format (e.g., "July 2, 2026")
   eleventyConfig.addFilter("readableDate", (dateString) => {
     if (!dateString) return '';
