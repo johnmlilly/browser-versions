@@ -3,6 +3,8 @@
 [build]
   command = "npm run build"
   publish = "dist"
+    functions = "netlify/functions"
+
 
 # Build environment
 [build.environment]
