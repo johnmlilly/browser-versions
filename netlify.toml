@@ -10,10 +10,6 @@
 [build.environment]
   NODE_VERSION = "20"
 
-# Scheduled rebuild every 12 hours
-[functions."rebuildSite"]
-  schedule = "0 */12 * * *"
-
 # Headers for better caching
 [[headers]]
   for = "/*"
