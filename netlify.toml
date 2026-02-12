@@ -11,7 +11,7 @@
   NODE_VERSION = "20"
 
 # Scheduled rebuild every 12 hours
-[functions."rebuild"]
+[functions."rebuildSite"]
   schedule = "0 */12 * * *"
 
 # Headers for better caching

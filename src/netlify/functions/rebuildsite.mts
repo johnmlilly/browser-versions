@@ -1,5 +1,7 @@
 import type { Config } from '@netlify/functions'
 
+//Ref: https://www.marclittlemore.com/automate-site-rebuilds-with-netlify-scheduled-functions/#create-a-netlify-build-hook
+
 // Stop TypeScript from complaining about
 // the missing process.env.NETLIFY_REBUILD_HOOK
 declare var process : {
